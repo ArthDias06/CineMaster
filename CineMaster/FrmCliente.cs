@@ -29,6 +29,7 @@ namespace CineMaster
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             Preenchimento(null);
+            CarregarComboBox();
             BtnEditar.Visible = false;
             BtnExcluir.Visible = false;
             BtnCancelar.Visible = false;
@@ -89,7 +90,8 @@ namespace CineMaster
                 !string.IsNullOrEmpty(TxtEmail.Text) &&
                 !string.IsNullOrEmpty(TxtSenha.Text) &&
                 !string.IsNullOrEmpty(TxtTelefone.Text) &&
-                !string.IsNullOrEmpty(TxtCpf.Text))
+                !string.IsNullOrEmpty(TxtCpf.Text) &&
+                !string.IsNullOrEmpty(CblTipoCliente.Text))
             {
                 try
                 {
@@ -98,16 +100,18 @@ namespace CineMaster
                     string senha = this.TxtSenha.Text;
                     string telefone = this.TxtTelefone.Text;
                     string cpf = this.TxtCpf.Text;
+                    string tipo = this.CblTipoCliente.Text;
                     var day = DtpNascimento.Value.Day;
                     var month = DtpNascimento.Value.Month;
                     var year = DtpNascimento.Value.Year;
                     string dataNascimento = year + "/" + month + "/" + day;
-                    string query = "INSERT INTO tbl_cliente(nome_cliente, email, senha, telefone, cpf, data_nascimento)" +
-                                      $"VALUES('{nome}','{email}','{senha}','{telefone}','{cpf}','{dataNascimento}');";
+                    string query = "INSERT INTO tbl_cliente(nome_cliente, tipo_cliente, email, senha, telefone, cpf, data_nascimento)" +
+                                      $"VALUES('{nome}','{tipo}','{email}','{senha}','{telefone}','{cpf}','{dataNascimento}');";
                     conexao.Query(sql: query);
                     MessageBox.Show("Obrigado por adentrar na maior rede de cinemas do cti!");
                     LimpaCampos();
                     Preenchimento(null);
+                    CarregarComboBox();
                 }
                 catch (NpgsqlException ex)
                 {
@@ -128,6 +132,8 @@ namespace CineMaster
                     LblTelefone.Font = new Font(this.Font, FontStyle.Bold);
                 if (string.IsNullOrEmpty(TxtCpf.Text))
                     LblCpf.Font = new Font(this.Font, FontStyle.Bold);
+                if (string.IsNullOrEmpty(CblTipoCliente.Text))
+                    LblTipoCliente.Font = new Font(this.Font, FontStyle.Bold);
             }
         }
 
@@ -158,12 +164,13 @@ namespace CineMaster
                 string senha = TxtSenha.Text;
                 string telefone = TxtTelefone.Text;
                 string cpf = TxtCpf.Text;
+                string tipo = CblTipoCliente.Text;
                 var day = DtpNascimento.Value.Day;
                 var month = DtpNascimento.Value.Month;
                 var year = DtpNascimento.Value.Year;
                 string dataNascimento = year + "/" + month + "/" + day;
 
-                var update = $"UPDATE tbl_cliente SET nome_cliente = '{nome}', email = '{email}', senha = '{senha}'," +
+                var update = $"UPDATE tbl_cliente SET nome_cliente = '{nome}', tipo_cliente='{tipo}', email = '{email}', senha = '{senha}'," +
                     $"telefone = '{telefone}', cpf = '{cpf}',  data_nascimento='{dataNascimento}'" +
                     $"WHERE id_cliente = {this.Id_cliente}";
                 conexao.Query(sql: update);
@@ -171,6 +178,7 @@ namespace CineMaster
                 LimpaCampos();
                 Limpar();
                 Preenchimento(null  );
+                CarregarComboBox();
             }
             catch (NpgsqlException ex)
             {
@@ -189,6 +197,7 @@ namespace CineMaster
                 LimpaCampos();
                 Limpar();
                 Preenchimento(null);
+                CarregarComboBox();
             }
             catch (NpgsqlException ex)
             {
@@ -202,6 +211,22 @@ namespace CineMaster
             LimpaCampos();
             Limpar();
             Preenchimento(null);
+            CarregarComboBox();
+        }
+
+        private void CarregarComboBox()
+        {
+            try
+            {
+                var query = "SELECT tipo_cliente FROM tbl_cliente;";
+                var listTipoCliente = conexao.Query<Tbl_cliente>(sql: query);
+                foreach (var tipo in listTipoCliente) CblTipoCliente.Items.Add(tipo.Tipo_cliente);
+            }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show("Erro: " + ex.Message);
+                TslCliente.Text = ex.Message;
+            }
         }
 
         private void DtgCliente_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
@@ -211,11 +236,12 @@ namespace CineMaster
                 this.Id_cliente = (int)DtgCliente.SelectedRows[0].Cells[0].Value;
 
                 var nomeCliente = DtgCliente.SelectedRows[0].Cells[1].Value;
-                var nascimentoCliente = DtgCliente.SelectedRows[0].Cells[2].Value;
-                var emailCliente = DtgCliente.SelectedRows[0].Cells[3].Value;
-                var senhaCliente = DtgCliente.SelectedRows[0].Cells[4].Value;
-                var telefoneCliente = DtgCliente.SelectedRows[0].Cells[5].Value;
-                var cpfCliente = DtgCliente.SelectedRows[0].Cells[6].Value;
+                var tipoCliente = DtgCliente.SelectedRows[0].Cells[2].Value;
+                var nascimentoCliente = DtgCliente.SelectedRows[0].Cells[3].Value;
+                var emailCliente = DtgCliente.SelectedRows[0].Cells[4].Value;
+                var senhaCliente = DtgCliente.SelectedRows[0].Cells[5].Value;
+                var telefoneCliente = DtgCliente.SelectedRows[0].Cells[6].Value;
+                var cpfCliente = DtgCliente.SelectedRows[0].Cells[7].Value;
 
                 var data = nascimentoCliente.ToString().Split('/');
                 int d = int.Parse(data[0]);
@@ -225,6 +251,7 @@ namespace CineMaster
                 DtpNascimento.Value = new DateTime(Y, m, d);
 
                 TxtClienteNome.Text = nomeCliente.ToString();
+                CblTipoCliente.Text = tipoCliente.ToString();
                 TxtEmail.Text = emailCliente.ToString();
 
                 TxtSenha.Text = senhaCliente.ToString();
@@ -255,6 +282,22 @@ namespace CineMaster
             {
                 string query = $"SELECT * FROM tbl_cliente WHERE nome_cliente LIKE '%{TxtBusca.Text}%'";
                 Preenchimento(query);
+            }
+        }
+
+        private void CblTipoCliente_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var query = $"SELECT id_cliente FROM tbl_clinte WHERE tipo_cliente = '{CblTipoCliente.Text}';";
+                dynamic resultado = conexao.Query<Tbl_cliente>(sql: query);
+
+                this.Id_cliente = resultado[0].Id_cliente;
+            }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show("Erro: " + ex.Message);
+                TslCliente.Text = ex.Message;
             }
         }
     }

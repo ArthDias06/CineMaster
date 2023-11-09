@@ -57,6 +57,8 @@
             this.DtgCliente = new System.Windows.Forms.DataGridView();
             this.LblNascimento = new System.Windows.Forms.Label();
             this.DtpNascimento = new System.Windows.Forms.DateTimePicker();
+            this.LblTipoCliente = new System.Windows.Forms.Label();
+            this.CblTipoCliente = new System.Windows.Forms.ComboBox();
             this.MstMenu.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DtgCliente)).BeginInit();
@@ -88,34 +90,34 @@
             // TsmiIngresso
             // 
             this.TsmiIngresso.Name = "TsmiIngresso";
-            this.TsmiIngresso.Size = new System.Drawing.Size(180, 22);
+            this.TsmiIngresso.Size = new System.Drawing.Size(178, 22);
             this.TsmiIngresso.Text = "Compara Ingesso";
             this.TsmiIngresso.Click += new System.EventHandler(this.TsmiIngresso_Click);
             // 
             // TsmiFilme
             // 
             this.TsmiFilme.Name = "TsmiFilme";
-            this.TsmiFilme.Size = new System.Drawing.Size(180, 22);
+            this.TsmiFilme.Size = new System.Drawing.Size(178, 22);
             this.TsmiFilme.Text = "Cadastrar Filme";
             this.TsmiFilme.Click += new System.EventHandler(this.TsmiFilme_Click);
             // 
             // TsmiSessao
             // 
             this.TsmiSessao.Name = "TsmiSessao";
-            this.TsmiSessao.Size = new System.Drawing.Size(180, 22);
+            this.TsmiSessao.Size = new System.Drawing.Size(178, 22);
             this.TsmiSessao.Text = "Cadastrar Sessao";
             this.TsmiSessao.Click += new System.EventHandler(this.TsmiSessao_Click);
             // 
             // TsmiCliente
             // 
             this.TsmiCliente.Name = "TsmiCliente";
-            this.TsmiCliente.Size = new System.Drawing.Size(180, 22);
+            this.TsmiCliente.Size = new System.Drawing.Size(178, 22);
             this.TsmiCliente.Text = "Cadastrar Cliente";
             // 
             // TsmiCategoria
             // 
             this.TsmiCategoria.Name = "TsmiCategoria";
-            this.TsmiCategoria.Size = new System.Drawing.Size(180, 22);
+            this.TsmiCategoria.Size = new System.Drawing.Size(178, 22);
             this.TsmiCategoria.Text = "Cadastrar Categoria";
             this.TsmiCategoria.Click += new System.EventHandler(this.TsmiCategoria_Click);
             // 
@@ -138,7 +140,7 @@
             // 
             this.statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.TslCliente});
-            this.statusStrip1.Location = new System.Drawing.Point(0, 444);
+            this.statusStrip1.Location = new System.Drawing.Point(0, 474);
             this.statusStrip1.Name = "statusStrip1";
             this.statusStrip1.Size = new System.Drawing.Size(800, 22);
             this.statusStrip1.TabIndex = 1;
@@ -182,7 +184,7 @@
             // 
             this.LblTelefone.AutoSize = true;
             this.LblTelefone.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.LblTelefone.Location = new System.Drawing.Point(13, 113);
+            this.LblTelefone.Location = new System.Drawing.Point(13, 117);
             this.LblTelefone.Name = "LblTelefone";
             this.LblTelefone.Size = new System.Drawing.Size(49, 13);
             this.LblTelefone.TabIndex = 8;
@@ -239,7 +241,7 @@
             // BtnNovo
             // 
             this.BtnNovo.BackColor = System.Drawing.Color.Lime;
-            this.BtnNovo.Location = new System.Drawing.Point(12, 180);
+            this.BtnNovo.Location = new System.Drawing.Point(12, 218);
             this.BtnNovo.Name = "BtnNovo";
             this.BtnNovo.Size = new System.Drawing.Size(97, 38);
             this.BtnNovo.TabIndex = 17;
@@ -250,7 +252,7 @@
             // BtnCancelar
             // 
             this.BtnCancelar.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(192)))), ((int)(((byte)(128)))));
-            this.BtnCancelar.Location = new System.Drawing.Point(673, 180);
+            this.BtnCancelar.Location = new System.Drawing.Point(673, 218);
             this.BtnCancelar.Name = "BtnCancelar";
             this.BtnCancelar.Size = new System.Drawing.Size(97, 38);
             this.BtnCancelar.TabIndex = 18;
@@ -261,7 +263,7 @@
             // BtnExcluir
             // 
             this.BtnExcluir.BackColor = System.Drawing.Color.Red;
-            this.BtnExcluir.Location = new System.Drawing.Point(474, 180);
+            this.BtnExcluir.Location = new System.Drawing.Point(462, 218);
             this.BtnExcluir.Name = "BtnExcluir";
             this.BtnExcluir.Size = new System.Drawing.Size(97, 38);
             this.BtnExcluir.TabIndex = 19;
@@ -272,7 +274,7 @@
             // BtnEditar
             // 
             this.BtnEditar.BackColor = System.Drawing.Color.Yellow;
-            this.BtnEditar.Location = new System.Drawing.Point(250, 180);
+            this.BtnEditar.Location = new System.Drawing.Point(233, 218);
             this.BtnEditar.Name = "BtnEditar";
             this.BtnEditar.Size = new System.Drawing.Size(97, 38);
             this.BtnEditar.TabIndex = 20;
@@ -282,7 +284,7 @@
             // 
             // TxtBusca
             // 
-            this.TxtBusca.Location = new System.Drawing.Point(12, 249);
+            this.TxtBusca.Location = new System.Drawing.Point(12, 279);
             this.TxtBusca.Name = "TxtBusca";
             this.TxtBusca.Size = new System.Drawing.Size(758, 20);
             this.TxtBusca.TabIndex = 22;
@@ -291,7 +293,7 @@
             // DtgCliente
             // 
             this.DtgCliente.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.DtgCliente.Location = new System.Drawing.Point(12, 288);
+            this.DtgCliente.Location = new System.Drawing.Point(12, 316);
             this.DtgCliente.Name = "DtgCliente";
             this.DtgCliente.Size = new System.Drawing.Size(758, 150);
             this.DtgCliente.TabIndex = 23;
@@ -314,12 +316,34 @@
             this.DtpNascimento.Size = new System.Drawing.Size(200, 20);
             this.DtpNascimento.TabIndex = 25;
             // 
+            // LblTipoCliente
+            // 
+            this.LblTipoCliente.AutoSize = true;
+            this.LblTipoCliente.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.LblTipoCliente.Location = new System.Drawing.Point(9, 166);
+            this.LblTipoCliente.Name = "LblTipoCliente";
+            this.LblTipoCliente.Size = new System.Drawing.Size(77, 13);
+            this.LblTipoCliente.TabIndex = 27;
+            this.LblTipoCliente.Text = "Tipo do cliente";
+            // 
+            // CblTipoCliente
+            // 
+            this.CblTipoCliente.FormattingEnabled = true;
+            this.CblTipoCliente.Location = new System.Drawing.Point(12, 182);
+            this.CblTipoCliente.Name = "CblTipoCliente";
+            this.CblTipoCliente.Size = new System.Drawing.Size(130, 21);
+            this.CblTipoCliente.TabIndex = 28;
+            this.CblTipoCliente.SelectedIndexChanged += new System.EventHandler(this.CblTipoCliente_SelectedIndexChanged);
+            // 
             // FrmCliente
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.ClientSize = new System.Drawing.Size(800, 466);
+            this.ClientSize = new System.Drawing.Size(800, 496);
+            this.Controls.Add(this.CblTipoCliente);
+            this.Controls.Add(this.LblTipoCliente);
+            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.DtpNascimento);
             this.Controls.Add(this.LblNascimento);
             this.Controls.Add(this.DtgCliente);
@@ -338,12 +362,10 @@
             this.Controls.Add(this.LblCpf);
             this.Controls.Add(this.LblClienteNome);
             this.Controls.Add(this.TxtClienteNome);
-            this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.MstMenu);
             this.MainMenuStrip = this.MstMenu;
             this.Name = "FrmCliente";
             this.Text = "Cadastro de clientes";
-            //this.Load += new System.EventHandler(this.FrmCliente_Load);
             this.MstMenu.ResumeLayout(false);
             this.MstMenu.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
@@ -385,5 +407,7 @@
         private System.Windows.Forms.Label LblNascimento;
         private System.Windows.Forms.DateTimePicker DtpNascimento;
         private System.Windows.Forms.ToolStripMenuItem TsmiCategoria;
+        private System.Windows.Forms.Label LblTipoCliente;
+        private System.Windows.Forms.ComboBox CblTipoCliente;
     }
 }

@@ -10,6 +10,7 @@ namespace CineMaster
     {
         public int Id_cliente {  get; set; }
         public string Nome_cliente { get; set; }
+        public string Tipo_cliente { get; set; }
         public DateTime Data_nascimento {  get; set; }
         public string Email {  get; set; }
         public string Senha { get; set; }

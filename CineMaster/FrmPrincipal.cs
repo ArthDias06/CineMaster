@@ -41,7 +41,7 @@ namespace CineMaster
         private void Preenchimento(string comando)
         {
             string query = comando != null ? comando : "SELECT f.id_filme, s.id_sessao, cl.id_cliente, f.titulo, " +
-                "cl.nome_cliente, s.num_sala, s.horario_sessao, i.poltrona, i.preco FROM tbl_ingresso AS i INNER JOIN " +
+                "cl.nome_cliente, cl.tipo_cliente, s.num_sala, s.horario_sessao, i.preco FROM tbl_ingresso AS i INNER JOIN " +
                 "tbl_filme AS f ON i.filme = f.id_filme INNER JOIN tbl_sessao AS s ON i.fk_sessao=s.id_sessao " +
                 "INNER JOIN tbl_cliente as cl ON i.fk_id_cliente=cl.id_cliente ORDER BY i.fk_id_cliente;";
             try
@@ -314,7 +314,7 @@ namespace CineMaster
             if (e.KeyChar == 13)
             {
                 string query = $"SELECT f.id_filme, s.id_sessao, cl.id_cliente, f.titulo, " +
-                "cl.nome_cliente, s.num_sala, s.horario_sessao, i.poltrona, i.preco FROM tbl_ingresso AS i INNER JOIN " +
+                "cl.nome_cliente, s.num_sala, s.horario_sessao, cl.tipo_cliente, i.preco FROM tbl_ingresso AS i INNER JOIN " +
                 "tbl_filme AS f ON i.filme = f.id_filme INNER JOIN tbl_sessao AS s ON i.fk_sessao=s.id_sessao " +
                 "INNER JOIN tbl_cliente as cl ON i.fk_id_cliente=cl.id_cliente " +
                 $"WHERE cl.nome_cliente LIKE '%{TxtBusca.Text}%' or f.titulo LIKE '%{TxtBusca.Text}%' ORDER BY i.fk_id_cliete;";
