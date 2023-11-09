@@ -106,7 +106,7 @@ namespace CineMaster
             {
                 var querySessao = $"SELECT count(*) FROM tbl_ingresso WHERE fk_sessao={this.Id_sessao};";
                 dynamic numero = conexao.Query<Tbl_sessao>(sql: querySessao);
-                if (numero[0].Count <= 5)
+                if (numero[0].Count <= 20)
                 {
                     try
                     {
@@ -367,7 +367,6 @@ namespace CineMaster
                 "INNER JOIN tbl_cliente as cl ON i.fk_id_cliente=cl.id_cliente " +
                 $"WHERE cl.nome_cliente LIKE '%{TxtBusca.Text}%' or f.titulo LIKE '%{TxtBusca.Text}%' ORDER BY i.id_ingresso;";
                 Preenchimento(query);
-                CarregarComboBox();
             }
         }
 

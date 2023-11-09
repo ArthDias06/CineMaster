@@ -246,7 +246,6 @@ namespace CineMaster
                     $"tbl_filme AS f ON s.filme = f.id_filme " +
                     $"WHERE f.titulo LIKE '%{TxtBusca.Text}%' ORDER BY id_sessao";
                 Preenchimento(query);
-                CarregarComboBox();
             }
         }
 

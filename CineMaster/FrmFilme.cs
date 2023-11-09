@@ -290,7 +290,6 @@ namespace CineMaster
                     $"tbl_categoria AS c ON f.categoria = c.id_categoria " +
                     $"WHERE titulo LIKE '%{TxtBusca.Text}%' ORDER BY id_filme";
                 Preenchimento(query);
-                CarregarComboBox();
             }
         }
     }
