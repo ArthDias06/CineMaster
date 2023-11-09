@@ -308,5 +308,19 @@ namespace CineMaster
                 TslPrincipal.Text = ex.Message;
             }
         }
+
+        private void TxtBusca_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (e.KeyChar == 13)
+            {
+                string query = $"SELECT f.id_filme, s.id_sessao, cl.id_cliente, f.titulo, " +
+                "cl.nome_cliente, s.num_sala, s.horario_sessao, i.poltrona, i.preco FROM tbl_ingresso AS i INNER JOIN " +
+                "tbl_filme AS f ON i.filme = f.id_filme INNER JOIN tbl_sessao AS s ON i.fk_sessao=s.id_sessao " +
+                "INNER JOIN tbl_cliente as cl ON i.fk_id_cliente=cl.id_cliente " +
+                $"WHERE cl.nome_cliente LIKE '%{TxtBusca.Text}%' or f.titulo LIKE '%{TxtBusca.Text}%' ORDER BY i.fk_id_cliete;";
+                Preenchimento(query);
+                CarregarComboBox();
+            }
+        }
     }
 }

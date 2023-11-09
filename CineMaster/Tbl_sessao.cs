@@ -13,7 +13,7 @@ namespace CineMaster
         public TimeSpan Horario_sessao { get; set; }
         public int Num_sala {  get; set; }
         public Tbl_sessao()
-        { 
+        {
         }
     }
 }

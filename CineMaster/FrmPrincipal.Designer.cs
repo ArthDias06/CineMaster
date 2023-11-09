@@ -276,6 +276,7 @@
             this.TxtBusca.Name = "TxtBusca";
             this.TxtBusca.Size = new System.Drawing.Size(430, 20);
             this.TxtBusca.TabIndex = 23;
+            this.TxtBusca.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.TxtBusca_KeyPress);
             // 
             // DtgPrincipal
             // 
