@@ -93,15 +93,14 @@ namespace CineMaster
                 !string.IsNullOrEmpty(TxtCpf.Text) &&
                 !string.IsNullOrEmpty(CblTipoCliente.Text))
             {
-                var queryData = "SELECT data_nascimento FROM tbl_cliente";
-                dynamic data = conexao.Query<Tbl_cliente>(sql: queryData);
+                DateTime data = DateTime.Parse(DtpNascimento.Text);
                 DateTime hoje = DateTime.Now;
-                int idade = hoje.Year - data[0].Data_nascimento.Year;
-                if (hoje < data[0].Data_nascimento.AddYears(idade))
+                int idade = hoje.Year - data.Year;
+                if (hoje < data.AddYears(idade))
                 {
                     idade--;
                 }
-                if (idade > 12 && CblTipoCliente.Text != "Criança" || idade < 60 && CblTipoCliente.Text != "Idoso") {
+                if ((idade > 12 && CblTipoCliente.Text != "Criança") && (idade < 60 && CblTipoCliente.Text != "Idoso")) {
                     try
                     {
                         string nome = this.TxtClienteNome.Text;
@@ -178,7 +177,7 @@ namespace CineMaster
             {
                 idade--;
             }
-            if ((idade > 12 && CblTipoCliente.Text== "Criança") || (idade < 60 && CblTipoCliente.Text != "Idoso"))
+            if ((idade > 12 && CblTipoCliente.Text!= "Criança") && (idade < 60 && CblTipoCliente.Text != "Idoso"))
             {
 
                 try
@@ -198,7 +197,7 @@ namespace CineMaster
                         $"telefone = '{telefone}', cpf = '{cpf}',  data_nascimento='{dataNascimento}'" +
                         $"WHERE id_cliente = {this.Id_cliente}";
                     conexao.Query(sql: update);
-                    MessageBox.Show("Dados atualizados com sucesso!!! " + idade);
+                    MessageBox.Show("Dados atualizados com sucesso!!!");
                     LimpaCampos();
                     Limpar();
                     Preenchimento(null);
