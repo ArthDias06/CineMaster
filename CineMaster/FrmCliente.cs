@@ -93,30 +93,44 @@ namespace CineMaster
                 !string.IsNullOrEmpty(TxtCpf.Text) &&
                 !string.IsNullOrEmpty(CblTipoCliente.Text))
             {
-                try
+                var queryData = "SELECT data_nascimento FROM tbl_cliente";
+                dynamic data = conexao.Query<Tbl_cliente>(sql: queryData);
+                DateTime hoje = DateTime.Now;
+                int idade = hoje.Year - data[0].Data_nascimento.Year;
+                if (hoje < data[0].Data_nascimento.AddYears(idade))
                 {
-                    string nome = this.TxtClienteNome.Text;
-                    string email = this.TxtEmail.Text;
-                    string senha = this.TxtSenha.Text;
-                    string telefone = this.TxtTelefone.Text;
-                    string cpf = this.TxtCpf.Text;
-                    string tipo = this.CblTipoCliente.Text;
-                    var day = DtpNascimento.Value.Day;
-                    var month = DtpNascimento.Value.Month;
-                    var year = DtpNascimento.Value.Year;
-                    string dataNascimento = year + "/" + month + "/" + day;
-                    string query = "INSERT INTO tbl_cliente(nome_cliente, tipo_cliente, email, senha, telefone, cpf, data_nascimento)" +
-                                      $"VALUES('{nome}','{tipo}','{email}','{senha}','{telefone}','{cpf}','{dataNascimento}');";
-                    conexao.Query(sql: query);
-                    MessageBox.Show("Obrigado por adentrar na maior rede de cinemas do cti!");
-                    LimpaCampos();
-                    Preenchimento(null);
-                    CarregarComboBox();
+                    idade--;
                 }
-                catch (NpgsqlException ex)
+                if (idade > 12 && CblTipoCliente.Text != "Criança" || idade < 60 && CblTipoCliente.Text != "Idoso") {
+                    try
+                    {
+                        string nome = this.TxtClienteNome.Text;
+                        string email = this.TxtEmail.Text;
+                        string senha = this.TxtSenha.Text;
+                        string telefone = this.TxtTelefone.Text;
+                        string cpf = this.TxtCpf.Text;
+                        string tipo = this.CblTipoCliente.Text;
+                        var day = DtpNascimento.Value.Day;
+                        var month = DtpNascimento.Value.Month;
+                        var year = DtpNascimento.Value.Year;
+                        string dataNascimento = year + "/" + month + "/" + day;
+                        string query = "INSERT INTO tbl_cliente(nome_cliente, tipo_cliente, email, senha, telefone, cpf, data_nascimento)" +
+                                          $"VALUES('{nome}','{tipo}','{email}','{senha}','{telefone}','{cpf}','{dataNascimento}');";
+                        conexao.Query(sql: query);
+                        MessageBox.Show("Obrigado por adentrar na maior rede de cinemas do cti!");
+                        LimpaCampos();
+                        Preenchimento(null);
+                        CarregarComboBox();
+                    }
+                    catch (NpgsqlException ex)
+                    {
+                        MessageBox.Show("Erro: " + ex.Message);
+                        TslCliente.Text = ex.Message;
+                    }
+                }
+                else
                 {
-                    MessageBox.Show("Erro: " + ex.Message);
-                    TslCliente.Text = ex.Message;
+                    MessageBox.Show("Idade não confere com o tipo de cliente estabelecido!");
                 }
             }
             else
@@ -157,33 +171,47 @@ namespace CineMaster
 
         private void BtnEditar_Click(object sender, EventArgs e)
         {
-            try
+            DateTime data = DateTime.Parse(DtpNascimento.Text);
+            DateTime hoje = DateTime.Now;
+            int idade = hoje.Year - data.Year;
+            if (hoje < data.AddYears(idade))
             {
-                string nome = TxtClienteNome.Text;
-                string email = TxtEmail.Text;
-                string senha = TxtSenha.Text;
-                string telefone = TxtTelefone.Text;
-                string cpf = TxtCpf.Text;
-                string tipo = CblTipoCliente.Text;
-                var day = DtpNascimento.Value.Day;
-                var month = DtpNascimento.Value.Month;
-                var year = DtpNascimento.Value.Year;
-                string dataNascimento = year + "/" + month + "/" + day;
-
-                var update = $"UPDATE tbl_cliente SET nome_cliente = '{nome}', tipo_cliente='{tipo}', email = '{email}', senha = '{senha}'," +
-                    $"telefone = '{telefone}', cpf = '{cpf}',  data_nascimento='{dataNascimento}'" +
-                    $"WHERE id_cliente = {this.Id_cliente}";
-                conexao.Query(sql: update);
-                MessageBox.Show("Dados atualizados com sucesso!!!");
-                LimpaCampos();
-                Limpar();
-                Preenchimento(null  );
-                CarregarComboBox();
+                idade--;
             }
-            catch (NpgsqlException ex)
+            if ((idade > 12 && CblTipoCliente.Text== "Criança") || (idade < 60 && CblTipoCliente.Text != "Idoso"))
             {
-                MessageBox.Show("Erro: " + ex.Message);
-                TslCliente.Text = ex.Message;
+
+                try
+                {
+                    string nome = TxtClienteNome.Text;
+                    string email = TxtEmail.Text;
+                    string senha = TxtSenha.Text;
+                    string telefone = TxtTelefone.Text;
+                    string cpf = TxtCpf.Text;
+                    string tipo = CblTipoCliente.Text;
+                    var day = DtpNascimento.Value.Day;
+                    var month = DtpNascimento.Value.Month;
+                    var year = DtpNascimento.Value.Year;
+                    string dataNascimento = year + "/" + month + "/" + day;
+
+                    var update = $"UPDATE tbl_cliente SET nome_cliente = '{nome}', tipo_cliente='{tipo}', email = '{email}', senha = '{senha}'," +
+                        $"telefone = '{telefone}', cpf = '{cpf}',  data_nascimento='{dataNascimento}'" +
+                        $"WHERE id_cliente = {this.Id_cliente}";
+                    conexao.Query(sql: update);
+                    MessageBox.Show("Dados atualizados com sucesso!!! " + idade);
+                    LimpaCampos();
+                    Limpar();
+                    Preenchimento(null);
+                }
+                catch (NpgsqlException ex)
+                {
+                    MessageBox.Show("Erro: " + ex.Message);
+                    TslCliente.Text = ex.Message;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Idade não confere com o tipo de cliente estabelecido!");
             }
         }
 
@@ -193,11 +221,10 @@ namespace CineMaster
             {
                 var delete = $"DELETE FROM tbl_cliente WHERE id_cliente = {this.Id_cliente}";
                 conexao.Query(sql: delete);
-                MessageBox.Show("Sentiremos saudade do seu dinheiro!");
+                MessageBox.Show("Cliente deletado com tristeza!");
                 LimpaCampos();
                 Limpar();
                 Preenchimento(null);
-                CarregarComboBox();
             }
             catch (NpgsqlException ex)
             {
@@ -211,16 +238,17 @@ namespace CineMaster
             LimpaCampos();
             Limpar();
             Preenchimento(null);
-            CarregarComboBox();
         }
 
         private void CarregarComboBox()
         {
             try
             {
-                var query = "SELECT tipo_cliente FROM tbl_cliente;";
-                var listTipoCliente = conexao.Query<Tbl_cliente>(sql: query);
-                foreach (var tipo in listTipoCliente) CblTipoCliente.Items.Add(tipo.Tipo_cliente);
+                CblTipoCliente.Items.Add("Comum");
+                CblTipoCliente.Items.Add("Aluno");
+                CblTipoCliente.Items.Add("Professor");
+                CblTipoCliente.Items.Add("Criança");
+                CblTipoCliente.Items.Add("Idoso");
             }
             catch (NpgsqlException ex)
             {
@@ -289,7 +317,7 @@ namespace CineMaster
         {
             try
             {
-                var query = $"SELECT id_cliente FROM tbl_cliente WHERE tipo_cliente = '{CblTipoCliente.Text}';";
+                var query = $"SELECT id_cliente FROM tbl_cliente WHERE id_cliente = {this.Id_cliente};";
                 dynamic resultado = conexao.Query<Tbl_cliente>(sql: query);
 
                 this.Id_cliente = resultado[0].Id_cliente;

@@ -235,7 +235,6 @@ namespace CineMaster
             LimpaCampos();
             Limpar();
             Preenchimento(null);
-            CarregarComboBox();
         }
         private void CarregarComboBox()
         {
