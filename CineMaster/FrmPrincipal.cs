@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -103,6 +104,10 @@ namespace CineMaster
                 !string.IsNullOrEmpty(CblHorario.Text) &&
                 !string.IsNullOrEmpty(CblSala.Text))
             {
+                var querySessao = $"SELECT count(*) FROM tbl_ingresso WHERE fk_sessao={this.Id_sessao};";
+                dynamic numero = conexao.Query<Tbl_sessao>(sql: querySessao);
+                if (numero[0].Count <= 5)
+                {
                     try
                     {
                         int filme = this.Id_filme;
@@ -132,6 +137,11 @@ namespace CineMaster
                         TslPrincipal.Text = ex.Message;
                     }
                 }
+                else
+                {
+                    MessageBox.Show("Sessão lotada!");
+                }
+            }
             else
             {
                 MessageBox.Show("Campos obrigatórios não preenchidos!!");
@@ -174,12 +184,20 @@ namespace CineMaster
                 int cliente = Id_cliente;
                 int sessao = Id_sessao;
                 int filme = Id_filme;
-                double preco = Convert.ToDouble(TxtPreco.Text);
+                double preco = Convert.ToDouble(this.TxtPreco.Text, CultureInfo.InvariantCulture);
 
-                var update = $"UPDATE tbl_ingresso SET fk_id_cliente = {cliente}, fk_sessao = {sessao}, filme = {filme}," +
-                    $"preco = {preco} " +
+                var update = "UPDATE tbl_ingresso SET fk_id_cliente = @cliente, fk_sessao = @sessao, filme = @filme," +
+                    "preco = @preco " +
                     $"WHERE id_ingresso={this.Id_ingresso}";
-                conexao.Query(sql: update);
+                var parameters = new
+                {
+                    cliente = cliente,
+                    sessao = sessao,
+                    filme = filme,
+                    preco = preco
+                };
+
+                conexao.Query(sql: update, param: parameters);
                 MessageBox.Show("Dados atualizados com sucesso!!!");
                 LimpaCampos();
                 Limpar();
@@ -357,15 +375,16 @@ namespace CineMaster
         {
             try
             {
-                this.Id_filme = (int)DtgPrincipal.SelectedRows[0].Cells[0].Value;
+                this.Id_ingresso = (int)DtgPrincipal.SelectedRows[0].Cells[0].Value;
 
-                this.Id_sessao = (int)DtgPrincipal.SelectedRows[0].Cells[1].Value;
-                this.Id_cliente = (int)DtgPrincipal.SelectedRows[0].Cells[2].Value;
-                var tituloFilme = DtgPrincipal.SelectedRows[0].Cells[3].Value;
-                var nomeCliente = DtgPrincipal.SelectedRows[0].Cells[4].Value;
-                var tipoCliente = DtgPrincipal.SelectedRows[0].Cells[5].Value;
-                var numSala = DtgPrincipal.SelectedRows[0].Cells[6].Value;
-                var horario = DtgPrincipal.SelectedRows[0].Cells[7].Value;
+                this.Id_filme = (int)DtgPrincipal.SelectedRows[0].Cells[1].Value;
+                this.Id_sessao = (int)DtgPrincipal.SelectedRows[0].Cells[2].Value;
+                this.Id_cliente = (int)DtgPrincipal.SelectedRows[0].Cells[3].Value;
+                var tituloFilme = DtgPrincipal.SelectedRows[0].Cells[4].Value;
+                var nomeCliente = DtgPrincipal.SelectedRows[0].Cells[5].Value;
+                var tipoCLiente = DtgPrincipal.SelectedRows[0].Cells[6].Value;
+                var numSala = DtgPrincipal.SelectedRows[0].Cells[7].Value;
+                var horario = DtgPrincipal.SelectedRows[0].Cells[8].Value;
                 var Preco = DtgPrincipal.SelectedRows[0].Cells[8].Value;
 
                 CblFilme.Text = tituloFilme.ToString();
