@@ -16,6 +16,7 @@ namespace CineMaster
     public partial class FrmPrincipal : Form
     {
         NpgsqlConnection conexao;
+        int Id_ingresso = 0;
         int Id_sessao = 0;
         int Id_cliente = 0;
         int Id_filme = 0;
@@ -41,10 +42,10 @@ namespace CineMaster
 
         private void Preenchimento(string comando)
         {
-            string query = comando != null ? comando : "SELECT f.id_filme, s.id_sessao, cl.id_cliente, f.titulo, " +
+            string query = comando != null ? comando : "SELECT i.id_ingresso, f.id_filme, s.id_sessao, cl.id_cliente, f.titulo, " +
                 "cl.nome_cliente, cl.tipo_cliente, s.num_sala, s.horario_sessao, i.preco FROM tbl_ingresso AS i INNER JOIN " +
                 "tbl_filme AS f ON i.filme = f.id_filme INNER JOIN tbl_sessao AS s ON i.fk_sessao=s.id_sessao " +
-                "INNER JOIN tbl_cliente as cl ON i.fk_id_cliente=cl.id_cliente ORDER BY i.fk_id_cliente;";
+                "INNER JOIN tbl_cliente as cl ON i.fk_id_cliente=cl.id_cliente ORDER BY i.id_ingresso;";
             try
             {
                 conexao.Open();
@@ -102,14 +103,6 @@ namespace CineMaster
                 !string.IsNullOrEmpty(CblHorario.Text) &&
                 !string.IsNullOrEmpty(CblSala.Text))
             {
-                var queryIdade = $"SELECT data_nascimento FROM tbl_cliente WHERE id_cliente={this.Id_cliente};";
-                dynamic data = conexao.Query<Tbl_cliente>(sql: queryIdade);
-                DateTime hoje = DateTime.Now;
-                TimeSpan idade = hoje - data[0];
-                var queryFilme = $"SELECT classificacao FROM tbl_filme WHERE id_filme={this.Id_filme};";
-                dynamic classific = conexao.Query<Tbl_filme>(sql: queryFilme);
-                if (classific[0] < idade)
-                {
                     try
                     {
                         int filme = this.Id_filme;
@@ -139,11 +132,6 @@ namespace CineMaster
                         TslPrincipal.Text = ex.Message;
                     }
                 }
-                else
-                {
-                    MessageBox.Show("Cliente muito novo para assitir ao filme!");
-                }
-            }
             else
             {
                 MessageBox.Show("Campos obrigatórios não preenchidos!!");
@@ -190,7 +178,7 @@ namespace CineMaster
 
                 var update = $"UPDATE tbl_ingresso SET fk_id_cliente = {cliente}, fk_sessao = {sessao}, filme = {filme}," +
                     $"preco = {preco} " +
-                    $"WHERE fk_id_cliente = {this.Id_cliente} and fk_sessao = {this.Id_sessao}";
+                    $"WHERE id_ingresso={this.Id_ingresso}";
                 conexao.Query(sql: update);
                 MessageBox.Show("Dados atualizados com sucesso!!!");
                 LimpaCampos();
@@ -209,7 +197,7 @@ namespace CineMaster
         {
             try
             {
-                var delete = $"DELETE FROM tbl_ingresso WHERE fk_id_cliente = {this.Id_cliente} and fk_sessao = {this.Id_sessao}";
+                var delete = $"DELETE FROM tbl_ingresso WHERE id_ingresso={this.Id_ingresso};";
                 conexao.Query(sql: delete);
                 MessageBox.Show("Compra deletada com sucesso!");
                 LimpaCampos();
@@ -355,11 +343,11 @@ namespace CineMaster
         {
             if (e.KeyChar == 13)
             {
-                string query = $"SELECT f.id_filme, s.id_sessao, cl.id_cliente, f.titulo, " +
+                string query = $"SELECT i.id_ingresso, f.id_filme, s.id_sessao, cl.id_cliente, f.titulo, " +
                 "cl.nome_cliente, s.num_sala, s.horario_sessao, cl.tipo_cliente, i.preco FROM tbl_ingresso AS i INNER JOIN " +
                 "tbl_filme AS f ON i.filme = f.id_filme INNER JOIN tbl_sessao AS s ON i.fk_sessao=s.id_sessao " +
                 "INNER JOIN tbl_cliente as cl ON i.fk_id_cliente=cl.id_cliente " +
-                $"WHERE cl.nome_cliente LIKE '%{TxtBusca.Text}%' or f.titulo LIKE '%{TxtBusca.Text}%' ORDER BY i.fk_id_cliente;";
+                $"WHERE cl.nome_cliente LIKE '%{TxtBusca.Text}%' or f.titulo LIKE '%{TxtBusca.Text}%' ORDER BY i.id_ingresso;";
                 Preenchimento(query);
                 CarregarComboBox();
             }
