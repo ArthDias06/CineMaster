@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -101,16 +102,33 @@ namespace CineMaster
                 !string.IsNullOrEmpty(CblHorario.Text) &&
                 !string.IsNullOrEmpty(CblSala.Text))
             {
+                var queryIdade = $"SELECT data_nascimento FROM tbl_cliente WHERE id_cliente={this.Id_cliente};";
+                dynamic data = conexao.Query<Tbl_cliente>(sql: queryIdade);
+                DateTime hoje = DateTime.Now;
+                TimeSpan idade = hoje - data[0];
+                var queryFilme = $"SELECT classificacao FROM tbl_filme WHERE id_filme={this.Id_filme};";
+                dynamic classific = conexao.Query<Tbl_filme>(sql: queryFilme);
+                if (classific[0] < idade)
+                {
                     try
                     {
                         int filme = this.Id_filme;
                         int cliente = this.Id_cliente;
                         int sessao = this.Id_sessao;
-                        double preco = Convert.ToDouble(this.TxtPreco.Text);
-                        string query = "INSERT INTO tbl_ingresso(fk_id_cliente, fk_sessao, filme, preco)" +
-                                          $"VALUES({cliente},{sessao},{filme},{preco});";
-                        conexao.Query(sql: query);
-                        MessageBox.Show("Novo filme adicionado com sucesso!");
+                        double preco = Convert.ToDouble(this.TxtPreco.Text, CultureInfo.InvariantCulture);
+                        string query = "INSERT INTO tbl_ingresso(fk_id_cliente, fk_sessao, filme, preco) " +
+               "VALUES(@cliente, @sessao, @filme, @preco);";
+
+                        var parameters = new
+                        {
+                            cliente = cliente,
+                            sessao = sessao,
+                            filme = filme,
+                            preco = preco
+                        };
+
+                        conexao.Query(sql: query, param: parameters);
+                        MessageBox.Show("Nova compra adicionada com sucesso!");
                         LimpaCampos();
                         Preenchimento(null);
                         CarregarComboBox();
@@ -120,6 +138,11 @@ namespace CineMaster
                         MessageBox.Show("Erro: " + ex.Message);
                         TslPrincipal.Text = ex.Message;
                     }
+                }
+                else
+                {
+                    MessageBox.Show("Cliente muito novo para assitir ao filme!");
+                }
             }
             else
             {
@@ -166,8 +189,8 @@ namespace CineMaster
                 double preco = Convert.ToDouble(TxtPreco.Text);
 
                 var update = $"UPDATE tbl_ingresso SET fk_id_cliente = {cliente}, fk_sessao = {sessao}, filme = {filme}," +
-                    $"preco = {preco}" +
-                    $"WHERE id_cliente = {this.Id_cliente} and id_sessao = {this.Id_sessao}";
+                    $"preco = {preco} " +
+                    $"WHERE fk_id_cliente = {this.Id_cliente} and fk_sessao = {this.Id_sessao}";
                 conexao.Query(sql: update);
                 MessageBox.Show("Dados atualizados com sucesso!!!");
                 LimpaCampos();
@@ -186,7 +209,7 @@ namespace CineMaster
         {
             try
             {
-                var delete = $"DELETE FROM tbl_ingresso WHERE id_cliente = {this.Id_cliente} and id_sessao = {this.Id_sessao}";
+                var delete = $"DELETE FROM tbl_ingresso WHERE fk_id_cliente = {this.Id_cliente} and fk_sessao = {this.Id_sessao}";
                 conexao.Query(sql: delete);
                 MessageBox.Show("Compra deletada com sucesso!");
                 LimpaCampos();
@@ -276,8 +299,14 @@ namespace CineMaster
         {
             try
             {
-                var query = "SELECT horario_sessao FROM tbl_sessao;";
-                var query2 = "SELECT num_sala FROM tbl_sessao;";
+                CblHorario.ResetText();
+                CblHorario.Items.Clear();
+                CblSala.ResetText();
+                CblSala.Items.Clear();
+                var query = "SELECT s.horario_sessao FROM tbl_sessao AS s INNER JOIN tbl_filme AS f ON" +
+                    $" s.filme=f.id_filme WHERE s.filme='{this.Id_filme}';";
+                var query2 = "SELECT num_sala FROM tbl_sessao AS s INNER JOIN tbl_filme AS f ON " +
+                    $"s.filme=f.id_filme WHERE s.filme='{this.Id_filme}';";
                 var listHorario = conexao.Query<Tbl_sessao>(sql: query);
                 var listSala = conexao.Query<Tbl_sessao>(sql: query2);
                 foreach (var hora in listHorario) CblHorario.Items.Add(hora.Horario_sessao.ToString());
@@ -356,7 +385,16 @@ namespace CineMaster
 
                 CblHorario.Text = horario.ToString();
                 CblSala.Text = numSala.ToString();
-                TxtPreco.Text = Preco.ToString();
+                var query = $"SELECT tipo_cliente FROM tbl_cliente WHERE id_cliente={this.Id_cliente};";
+                dynamic tipo2 = conexao.Query<Tbl_cliente>(sql: query);
+                if (tipo2[0].Tipo_cliente == "Comum")
+                {
+                    TxtPreco.Text = "18.50";
+                }
+                else
+                {
+                    TxtPreco.Text = "9.25";
+                }
 
                 BtnEditar.Visible = true;
                 BtnExcluir.Visible = true;

@@ -37,7 +37,6 @@
             this.TsmiCategoria = new System.Windows.Forms.ToolStripMenuItem();
             this.TsmAjuda = new System.Windows.Forms.ToolStripMenuItem();
             this.TsmiAjuda = new System.Windows.Forms.ToolStripMenuItem();
-            this.TxtPreco = new System.Windows.Forms.TextBox();
             this.LblCliente = new System.Windows.Forms.Label();
             this.LblPreco = new System.Windows.Forms.Label();
             this.LblSala = new System.Windows.Forms.Label();
@@ -55,6 +54,7 @@
             this.DtgPrincipal = new System.Windows.Forms.DataGridView();
             this.StsErro = new System.Windows.Forms.StatusStrip();
             this.TslPrincipal = new System.Windows.Forms.ToolStripStatusLabel();
+            this.TxtPreco = new System.Windows.Forms.TextBox();
             this.MstMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DtgPrincipal)).BeginInit();
             this.StsErro.SuspendLayout();
@@ -131,14 +131,6 @@
             this.TsmiAjuda.Size = new System.Drawing.Size(105, 22);
             this.TsmiAjuda.Text = "Ajuda";
             this.TsmiAjuda.Click += new System.EventHandler(this.TsmiAjuda_Click);
-            // 
-            // TxtPreco
-            // 
-            this.TxtPreco.Location = new System.Drawing.Point(698, 73);
-            this.TxtPreco.Name = "TxtPreco";
-            this.TxtPreco.ReadOnly = true;
-            this.TxtPreco.Size = new System.Drawing.Size(73, 20);
-            this.TxtPreco.TabIndex = 3;
             // 
             // LblCliente
             // 
@@ -304,6 +296,14 @@
             this.TslPrincipal.Size = new System.Drawing.Size(28, 17);
             this.TslPrincipal.Text = "Erro";
             // 
+            // TxtPreco
+            // 
+            this.TxtPreco.Location = new System.Drawing.Point(698, 73);
+            this.TxtPreco.Name = "TxtPreco";
+            this.TxtPreco.ReadOnly = true;
+            this.TxtPreco.Size = new System.Drawing.Size(73, 20);
+            this.TxtPreco.TabIndex = 3;
+            // 
             // FrmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -352,7 +352,6 @@
         private System.Windows.Forms.ToolStripMenuItem TsmAjuda;
         private System.Windows.Forms.ToolStripMenuItem TsmiAjuda;
         private System.Windows.Forms.ToolStripMenuItem TsmiCategoria;
-        private System.Windows.Forms.TextBox TxtPreco;
         private System.Windows.Forms.Label LblCliente;
         private System.Windows.Forms.Label LblPreco;
         private System.Windows.Forms.Label LblSala;
@@ -370,6 +369,7 @@
         private System.Windows.Forms.DataGridView DtgPrincipal;
         private System.Windows.Forms.StatusStrip StsErro;
         private System.Windows.Forms.ToolStripStatusLabel TslPrincipal;
+        private System.Windows.Forms.TextBox TxtPreco;
     }
 }
 

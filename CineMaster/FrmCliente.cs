@@ -289,7 +289,7 @@ namespace CineMaster
         {
             try
             {
-                var query = $"SELECT id_cliente FROM tbl_clinte WHERE tipo_cliente = '{CblTipoCliente.Text}';";
+                var query = $"SELECT id_cliente FROM tbl_cliente WHERE tipo_cliente = '{CblTipoCliente.Text}';";
                 dynamic resultado = conexao.Query<Tbl_cliente>(sql: query);
 
                 this.Id_cliente = resultado[0].Id_cliente;
