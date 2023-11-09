@@ -156,9 +156,9 @@
             this.LblPreco.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
             this.LblPreco.Location = new System.Drawing.Point(695, 56);
             this.LblPreco.Name = "LblPreco";
-            this.LblPreco.Size = new System.Drawing.Size(35, 13);
+            this.LblPreco.Size = new System.Drawing.Size(55, 13);
             this.LblPreco.TabIndex = 9;
-            this.LblPreco.Text = "Preço";
+            this.LblPreco.Text = "Preço(R$)";
             // 
             // LblSala
             // 
@@ -285,6 +285,7 @@
             this.DtgPrincipal.Name = "DtgPrincipal";
             this.DtgPrincipal.Size = new System.Drawing.Size(773, 150);
             this.DtgPrincipal.TabIndex = 24;
+            this.DtgPrincipal.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.DtgPrincipal_RowHeaderMouseClick);
             // 
             // StsErro
             // 

@@ -234,12 +234,25 @@ namespace CineMaster
                 dynamic resultado = conexao.Query<Tbl_cliente>(sql: query);
 
                 this.Id_cliente = resultado[0].Id_cliente;
-
+                PrecoCliente();
             }
             catch (NpgsqlException ex)
             {
                 MessageBox.Show("Erro: " + ex.Message);
                 TslPrincipal.Text = ex.Message;
+            }
+        }
+        private void PrecoCliente()
+        {
+            var query = $"SELECT tipo_cliente FROM tbl_cliente WHERE id_cliente={this.Id_cliente};";
+            dynamic tipo2 = conexao.Query<Tbl_cliente>(sql: query);
+            if (tipo2[0].Tipo_cliente == "Comum")
+            {
+                TxtPreco.Text = "18.50";
+            }
+            else
+            {
+                TxtPreco.Text = "9.25";
             }
         }
 
@@ -317,9 +330,43 @@ namespace CineMaster
                 "cl.nome_cliente, s.num_sala, s.horario_sessao, cl.tipo_cliente, i.preco FROM tbl_ingresso AS i INNER JOIN " +
                 "tbl_filme AS f ON i.filme = f.id_filme INNER JOIN tbl_sessao AS s ON i.fk_sessao=s.id_sessao " +
                 "INNER JOIN tbl_cliente as cl ON i.fk_id_cliente=cl.id_cliente " +
-                $"WHERE cl.nome_cliente LIKE '%{TxtBusca.Text}%' or f.titulo LIKE '%{TxtBusca.Text}%' ORDER BY i.fk_id_cliete;";
+                $"WHERE cl.nome_cliente LIKE '%{TxtBusca.Text}%' or f.titulo LIKE '%{TxtBusca.Text}%' ORDER BY i.fk_id_cliente;";
                 Preenchimento(query);
                 CarregarComboBox();
+            }
+        }
+
+        private void DtgPrincipal_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            try
+            {
+                this.Id_filme = (int)DtgPrincipal.SelectedRows[0].Cells[0].Value;
+
+                this.Id_sessao = (int)DtgPrincipal.SelectedRows[0].Cells[1].Value;
+                this.Id_cliente = (int)DtgPrincipal.SelectedRows[0].Cells[2].Value;
+                var tituloFilme = DtgPrincipal.SelectedRows[0].Cells[3].Value;
+                var nomeCliente = DtgPrincipal.SelectedRows[0].Cells[4].Value;
+                var tipoCliente = DtgPrincipal.SelectedRows[0].Cells[5].Value;
+                var numSala = DtgPrincipal.SelectedRows[0].Cells[6].Value;
+                var horario = DtgPrincipal.SelectedRows[0].Cells[7].Value;
+                var Preco = DtgPrincipal.SelectedRows[0].Cells[8].Value;
+
+                CblFilme.Text = tituloFilme.ToString();
+                CblCliente.Text = nomeCliente.ToString();
+
+                CblHorario.Text = horario.ToString();
+                CblSala.Text = numSala.ToString();
+                TxtPreco.Text = Preco.ToString();
+
+                BtnEditar.Visible = true;
+                BtnExcluir.Visible = true;
+                BtnCancelar.Visible = true;
+                BtnNovo.Visible = false;
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Erro: " + ex.Message);
+                TslPrincipal.Text = ex.Message;
             }
         }
     }
