@@ -1,0 +1,312 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Data;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Forms;
+using Dapper;
+using Npgsql;
+
+namespace CineMaster
+{
+    public partial class FrmPrincipal : Form
+    {
+        NpgsqlConnection conexao;
+        int Id_sessao = 0;
+        int Id_cliente = 0;
+        int Id_filme = 0;
+        public FrmPrincipal()
+        {
+            InitializeComponent();
+            conexao = new NpgsqlConnection(connectionString:"Server=localhost;" +
+                "Port=5432; " +
+                "User ID=postgres; " +
+                "Password=postgres; " +
+                "Database=postgres; " +
+                "Pooling=true;");
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            Preenchimento(null);
+            CarregarComboBox();
+            BtnEditar.Visible = false;
+            BtnExcluir.Visible = false;
+            BtnCancelar.Visible = false;
+            BtnNovo.Visible = true;
+        }
+
+        private void Preenchimento(string comando)
+        {
+            string query = comando != null ? comando : "SELECT f.id_filme, s.id_sessao, cl.id_cliente, f.titulo, " +
+                "cl.nome_cliente, s.num_sala, s.horario_sessao, i.poltrona, i.preco FROM tbl_ingresso AS i INNER JOIN " +
+                "tbl_filme AS f ON i.filme = f.id_filme INNER JOIN tbl_sessao AS s ON i.fk_sessao=s.id_sessao " +
+                "INNER JOIN tbl_cliente as cl ON i.fk_id_cliente=cl.id_cliente ORDER BY i.fk_id_cliente;";
+            try
+            {
+                conexao.Open();
+                using (NpgsqlDataAdapter da = new NpgsqlDataAdapter(query, conexao))
+                {
+                    using (DataTable dt = new DataTable())
+                    {
+                        da.Fill(dt);
+                        DtgPrincipal.DataSource = dt;
+                    }
+                }
+                conexao.Close();
+            }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show("Erro: " + ex.Message);
+                TslPrincipal.Text = ex.Message;
+                conexao.Close();
+            }
+        }
+        private void TsmiFilme_Click(object sender, EventArgs e)
+        {
+            FrmFilme frmfilme = new FrmFilme();
+            frmfilme.ShowDialog();
+        }
+
+        private void TsmiSessao_Click(object sender, EventArgs e)
+        {
+            FrmSessao frmsessao = new FrmSessao();
+            frmsessao.ShowDialog();
+        }
+
+        private void TsmiCliente_Click(object sender, EventArgs e)
+        {
+            FrmCliente frmcliente = new FrmCliente();
+            frmcliente.ShowDialog();
+        }
+
+        private void TsmiAjuda_Click(object sender, EventArgs e)
+        {
+            FrmAjuda frmajuda = new FrmAjuda();
+            frmajuda.ShowDialog();
+        }
+
+        private void TsmiCategoria_Click(object sender, EventArgs e)
+        {
+            FrmCategoria frmcategoria = new FrmCategoria();
+            frmcategoria.ShowDialog();
+        }
+
+        private void BtnNovo_Click(object sender, EventArgs e)
+        {
+            if (!string.IsNullOrEmpty(CblCliente.Text) &&
+                !string.IsNullOrEmpty(CblFilme.Text) &&
+                !string.IsNullOrEmpty(CblHorario.Text) &&
+                !string.IsNullOrEmpty(CblSala.Text))
+            {
+                    try
+                    {
+                        int filme = this.Id_filme;
+                        int cliente = this.Id_cliente;
+                        int sessao = this.Id_sessao;
+                        double preco = Convert.ToDouble(this.TxtPreco.Text);
+                        string query = "INSERT INTO tbl_ingresso(fk_id_cliente, fk_sessao, filme, preco)" +
+                                          $"VALUES({cliente},{sessao},{filme},{preco});";
+                        conexao.Query(sql: query);
+                        MessageBox.Show("Novo filme adicionado com sucesso!");
+                        LimpaCampos();
+                        Preenchimento(null);
+                        CarregarComboBox();
+                    }
+                    catch (NpgsqlException ex)
+                    {
+                        MessageBox.Show("Erro: " + ex.Message);
+                        TslPrincipal.Text = ex.Message;
+                    }
+            }
+            else
+            {
+                MessageBox.Show("Campos obrigatórios não preenchidos!!");
+                if (string.IsNullOrEmpty(CblCliente.Text))
+                    LblCliente.Font = new Font(this.Font, FontStyle.Bold);
+                if (string.IsNullOrEmpty(CblFilme.Text))
+                    LblFilme.Font = new Font(this.Font, FontStyle.Bold);
+                if (string.IsNullOrEmpty(CblHorario.Text))
+                    LblSessao.Font = new Font(this.Font, FontStyle.Bold);
+                if (string.IsNullOrEmpty(CblSala.Text))
+                    LblSala.Font = new Font(this.Font, FontStyle.Bold);
+            }
+        }
+        private void LimpaCampos()
+        {
+            CblCliente.Items.Clear();
+            CblCliente.ResetText();
+            TxtPreco.ResetText();
+            CblFilme.Items.Clear();
+            CblFilme.ResetText();
+            CblSala.Items.Clear();
+            CblSala.ResetText();
+            CblHorario.Items.Clear();
+            CblHorario.ResetText();
+        }
+
+
+        public void Limpar()
+        {
+            BtnEditar.Visible = false;
+            BtnExcluir.Visible = false;
+            BtnCancelar.Visible = false;
+            BtnNovo.Visible = true;
+        }
+
+        private void BtnEditar_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                int cliente = Id_cliente;
+                int sessao = Id_sessao;
+                int filme = Id_filme;
+                double preco = Convert.ToDouble(TxtPreco.Text);
+
+                var update = $"UPDATE tbl_ingresso SET fk_id_cliente = {cliente}, fk_sessao = {sessao}, filme = {filme}," +
+                    $"preco = {preco}" +
+                    $"WHERE id_cliente = {this.Id_cliente} and id_sessao = {this.Id_sessao}";
+                conexao.Query(sql: update);
+                MessageBox.Show("Dados atualizados com sucesso!!!");
+                LimpaCampos();
+                Limpar();
+                Preenchimento(null);
+                CarregarComboBox();
+            }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show("Erro: " + ex.Message);
+                TslPrincipal.Text = ex.Message;
+            }
+        }
+
+        private void BtnExcluir_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var delete = $"DELETE FROM tbl_ingresso WHERE id_cliente = {this.Id_cliente} and id_sessao = {this.Id_sessao}";
+                conexao.Query(sql: delete);
+                MessageBox.Show("Compra deletada com sucesso!");
+                LimpaCampos();
+                Limpar();
+                Preenchimento(null);
+                CarregarComboBox();
+            }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show("Erro: " + ex.Message);
+                TslPrincipal.Text = ex.Message;
+            }
+        }
+
+        private void BtnCancelar_Click(object sender, EventArgs e)
+        {
+            LimpaCampos();
+            Limpar();
+            Preenchimento(null);
+            CarregarComboBox();
+        }
+        private void CarregarComboBox()
+        {
+            try
+            {
+                var query = "SELECT nome_cliente FROM tbl_cliente;";
+                var query2 = "SELECT titulo FROM tbl_filme;";
+                var listCliente = conexao.Query<Tbl_cliente>(sql: query);
+                var listFilme = conexao.Query<Tbl_filme>(sql: query2);
+                foreach (var cliente in listCliente) CblCliente.Items.Add(cliente.Nome_cliente);
+                foreach (var filme in listFilme) CblFilme.Items.Add(filme.Titulo);
+            }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show("Erro: " + ex.Message);
+                TslPrincipal.Text = ex.Message;
+            }
+        }
+
+        private void CblCliente_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var query = $"SELECT id_cliente FROM tbl_cliente WHERE nome_cliente = '{CblCliente.Text}';";
+                dynamic resultado = conexao.Query<Tbl_cliente>(sql: query);
+
+                this.Id_cliente = resultado[0].Id_cliente;
+
+            }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show("Erro: " + ex.Message);
+                TslPrincipal.Text = ex.Message;
+            }
+        }
+
+        private void CblFilme_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var query = $"SELECT id_filme FROM tbl_filme WHERE titulo = '{CblFilme.Text}';";
+                dynamic resultado = conexao.Query<Tbl_filme>(sql: query);
+
+                this.Id_filme = resultado[0].Id_filme;
+                CarregarComboBoxSessao();
+            }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show("Erro: " + ex.Message);
+                TslPrincipal.Text = ex.Message;
+            }
+        }
+        private void CarregarComboBoxSessao()
+        {
+            try
+            {
+                var query = "SELECT horario_sessao FROM tbl_sessao;";
+                var query2 = "SELECT num_sala FROM tbl_sessao;";
+                var listHorario = conexao.Query<Tbl_sessao>(sql: query);
+                var listSala = conexao.Query<Tbl_sessao>(sql: query2);
+                foreach (var hora in listHorario) CblHorario.Items.Add(hora.Horario_sessao.ToString());
+                foreach (var sala in listSala) CblSala.Items.Add(sala.Num_sala);
+            }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show("Erro: " + ex.Message);
+                TslPrincipal.Text = ex.Message;
+            }
+        }
+
+        private void CblHorario_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var query = $"SELECT id_sessao FROM tbl_sessao WHERE horario_sessao = '{CblHorario.Text}';";
+                dynamic resultado = conexao.Query<Tbl_sessao>(sql: query);
+
+                this.Id_sessao = resultado[0].Id_sessao;
+            }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show("Erro: " + ex.Message);
+                TslPrincipal.Text = ex.Message;
+            }
+        }
+
+        private void CblSala_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                var query = $"SELECT id_sessao FROM tbl_sessao WHERE num_sala = '{CblSala.Text}';";
+                dynamic resultado = conexao.Query<Tbl_sessao>(sql: query);
+
+                this.Id_sessao = resultado[0].Id_sessao;
+            }
+            catch (NpgsqlException ex)
+            {
+                MessageBox.Show("Erro: " + ex.Message);
+                TslPrincipal.Text = ex.Message;
+            }
+        }
+    }
+}
