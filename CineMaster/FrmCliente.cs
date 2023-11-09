@@ -243,6 +243,8 @@ namespace CineMaster
         {
             try
             {
+                CblTipoCliente.Items.Clear();
+                CblTipoCliente.ResetText();
                 CblTipoCliente.Items.Add("Comum");
                 CblTipoCliente.Items.Add("Aluno");
                 CblTipoCliente.Items.Add("Professor");
