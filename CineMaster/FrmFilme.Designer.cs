@@ -42,7 +42,6 @@
             this.TxtNome = new System.Windows.Forms.TextBox();
             this.CblGenero = new System.Windows.Forms.ComboBox();
             this.LblGenero = new System.Windows.Forms.Label();
-            this.TxtClassificacao = new System.Windows.Forms.TextBox();
             this.LblClassificacao = new System.Windows.Forms.Label();
             this.LblSinopse = new System.Windows.Forms.Label();
             this.RtxtSinopse = new System.Windows.Forms.RichTextBox();
@@ -55,6 +54,8 @@
             this.TxtBusca = new System.Windows.Forms.TextBox();
             this.statusStrip1 = new System.Windows.Forms.StatusStrip();
             this.TslFilme = new System.Windows.Forms.ToolStripStatusLabel();
+            this.LblBusca = new System.Windows.Forms.Label();
+            this.CblClassificacao = new System.Windows.Forms.ComboBox();
             this.MstMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DtgFilme)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -177,13 +178,6 @@
             this.LblGenero.TabIndex = 6;
             this.LblGenero.Text = "Gênero do filme";
             // 
-            // TxtClassificacao
-            // 
-            this.TxtClassificacao.Location = new System.Drawing.Point(446, 68);
-            this.TxtClassificacao.Name = "TxtClassificacao";
-            this.TxtClassificacao.Size = new System.Drawing.Size(95, 20);
-            this.TxtClassificacao.TabIndex = 7;
-            // 
             // LblClassificacao
             // 
             this.LblClassificacao.AutoSize = true;
@@ -299,12 +293,32 @@
             this.TslFilme.Size = new System.Drawing.Size(28, 17);
             this.TslFilme.Text = "Erro";
             // 
+            // LblBusca
+            // 
+            this.LblBusca.AutoSize = true;
+            this.LblBusca.ForeColor = System.Drawing.SystemColors.ButtonFace;
+            this.LblBusca.Location = new System.Drawing.Point(37, 312);
+            this.LblBusca.Name = "LblBusca";
+            this.LblBusca.Size = new System.Drawing.Size(37, 13);
+            this.LblBusca.TabIndex = 20;
+            this.LblBusca.Text = "Busca";
+            // 
+            // CblClassificacao
+            // 
+            this.CblClassificacao.FormattingEnabled = true;
+            this.CblClassificacao.Location = new System.Drawing.Point(446, 68);
+            this.CblClassificacao.Name = "CblClassificacao";
+            this.CblClassificacao.Size = new System.Drawing.Size(149, 21);
+            this.CblClassificacao.TabIndex = 21;
+            // 
             // FrmFilme
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(746, 548);
+            this.Controls.Add(this.CblClassificacao);
+            this.Controls.Add(this.LblBusca);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.TxtBusca);
             this.Controls.Add(this.BtnEditar);
@@ -316,7 +330,6 @@
             this.Controls.Add(this.RtxtSinopse);
             this.Controls.Add(this.LblSinopse);
             this.Controls.Add(this.LblClassificacao);
-            this.Controls.Add(this.TxtClassificacao);
             this.Controls.Add(this.LblGenero);
             this.Controls.Add(this.CblGenero);
             this.Controls.Add(this.TxtNome);
@@ -351,7 +364,6 @@
         private System.Windows.Forms.TextBox TxtNome;
         private System.Windows.Forms.ComboBox CblGenero;
         private System.Windows.Forms.Label LblGenero;
-        private System.Windows.Forms.TextBox TxtClassificacao;
         private System.Windows.Forms.Label LblClassificacao;
         private System.Windows.Forms.Label LblSinopse;
         private System.Windows.Forms.RichTextBox RtxtSinopse;
@@ -365,5 +377,7 @@
         private System.Windows.Forms.StatusStrip statusStrip1;
         private System.Windows.Forms.ToolStripStatusLabel TslFilme;
         private System.Windows.Forms.ToolStripMenuItem TsmiCategoria;
+        private System.Windows.Forms.Label LblBusca;
+        private System.Windows.Forms.ComboBox CblClassificacao;
     }
 }

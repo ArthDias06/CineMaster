@@ -55,6 +55,7 @@
             this.StsErro = new System.Windows.Forms.StatusStrip();
             this.TslPrincipal = new System.Windows.Forms.ToolStripStatusLabel();
             this.TxtPreco = new System.Windows.Forms.TextBox();
+            this.LblBusca = new System.Windows.Forms.Label();
             this.MstMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DtgPrincipal)).BeginInit();
             this.StsErro.SuspendLayout();
@@ -264,7 +265,7 @@
             // 
             // TxtBusca
             // 
-            this.TxtBusca.Location = new System.Drawing.Point(15, 177);
+            this.TxtBusca.Location = new System.Drawing.Point(15, 185);
             this.TxtBusca.Name = "TxtBusca";
             this.TxtBusca.Size = new System.Drawing.Size(430, 20);
             this.TxtBusca.TabIndex = 23;
@@ -304,12 +305,23 @@
             this.TxtPreco.Size = new System.Drawing.Size(73, 20);
             this.TxtPreco.TabIndex = 3;
             // 
+            // LblBusca
+            // 
+            this.LblBusca.AutoSize = true;
+            this.LblBusca.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.LblBusca.Location = new System.Drawing.Point(12, 169);
+            this.LblBusca.Name = "LblBusca";
+            this.LblBusca.Size = new System.Drawing.Size(37, 13);
+            this.LblBusca.TabIndex = 26;
+            this.LblBusca.Text = "Busca";
+            // 
             // FrmPrincipal
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(800, 423);
+            this.Controls.Add(this.LblBusca);
             this.Controls.Add(this.StsErro);
             this.Controls.Add(this.DtgPrincipal);
             this.Controls.Add(this.TxtBusca);
@@ -370,6 +382,7 @@
         private System.Windows.Forms.StatusStrip StsErro;
         private System.Windows.Forms.ToolStripStatusLabel TslPrincipal;
         private System.Windows.Forms.TextBox TxtPreco;
+        private System.Windows.Forms.Label LblBusca;
     }
 }
 

@@ -51,6 +51,7 @@
             this.TxtBusca = new System.Windows.Forms.TextBox();
             this.DtgSessao = new System.Windows.Forms.DataGridView();
             this.CblFilme = new System.Windows.Forms.ComboBox();
+            this.LblBusca = new System.Windows.Forms.Label();
             this.MstTelas.SuspendLayout();
             this.StsErro.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DtgSessao)).BeginInit();
@@ -237,7 +238,7 @@
             // 
             // TxtBusca
             // 
-            this.TxtBusca.Location = new System.Drawing.Point(22, 203);
+            this.TxtBusca.Location = new System.Drawing.Point(22, 219);
             this.TxtBusca.Name = "TxtBusca";
             this.TxtBusca.Size = new System.Drawing.Size(417, 20);
             this.TxtBusca.TabIndex = 11;
@@ -261,12 +262,23 @@
             this.CblFilme.TabIndex = 13;
             this.CblFilme.SelectedIndexChanged += new System.EventHandler(this.CblFilme_SelectedIndexChanged);
             // 
+            // LblBusca
+            // 
+            this.LblBusca.AutoSize = true;
+            this.LblBusca.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.LblBusca.Location = new System.Drawing.Point(19, 203);
+            this.LblBusca.Name = "LblBusca";
+            this.LblBusca.Size = new System.Drawing.Size(37, 13);
+            this.LblBusca.TabIndex = 14;
+            this.LblBusca.Text = "Busca";
+            // 
             // FrmSessao
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.Controls.Add(this.LblBusca);
             this.Controls.Add(this.StsErro);
             this.Controls.Add(this.CblFilme);
             this.Controls.Add(this.DtgSessao);
@@ -284,7 +296,6 @@
             this.MainMenuStrip = this.MstTelas;
             this.Name = "FrmSessao";
             this.Text = "Cadastro de sessão";
-            //this.Load += new System.EventHandler(this.FrmSessao_Load);
             this.MstTelas.ResumeLayout(false);
             this.MstTelas.PerformLayout();
             this.StsErro.ResumeLayout(false);
@@ -320,5 +331,6 @@
         private System.Windows.Forms.TextBox TxtBusca;
         private System.Windows.Forms.DataGridView DtgSessao;
         private System.Windows.Forms.ComboBox CblFilme;
+        private System.Windows.Forms.Label LblBusca;
     }
 }

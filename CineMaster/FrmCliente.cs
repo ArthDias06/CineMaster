@@ -100,7 +100,8 @@ namespace CineMaster
                 {
                     idade--;
                 }
-                if ((idade > 12 && CblTipoCliente.Text != "Criança") && (idade < 60 && CblTipoCliente.Text != "Idoso")) {
+                if ((idade > 12 && CblTipoCliente.Text != "Criança") && (idade < 60 && CblTipoCliente.Text != "Idoso") ||
+                    (idade <= 12 && CblTipoCliente.Text == "Criança") || (idade >= 60 && CblTipoCliente.Text == "Idoso")) {
                     try
                     {
                         string nome = this.TxtClienteNome.Text;
@@ -311,22 +312,6 @@ namespace CineMaster
             {
                 string query = $"SELECT * FROM tbl_cliente WHERE nome_cliente LIKE '%{TxtBusca.Text}%'";
                 Preenchimento(query);
-            }
-        }
-
-        private void CblTipoCliente_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            try
-            {
-                var query = $"SELECT id_cliente FROM tbl_cliente WHERE id_cliente = {this.Id_cliente};";
-                dynamic resultado = conexao.Query<Tbl_cliente>(sql: query);
-
-                this.Id_cliente = resultado[0].Id_cliente;
-            }
-            catch (NpgsqlException ex)
-            {
-                MessageBox.Show("Erro: " + ex.Message);
-                TslCliente.Text = ex.Message;
             }
         }
     }

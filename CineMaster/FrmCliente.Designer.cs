@@ -59,6 +59,7 @@
             this.DtpNascimento = new System.Windows.Forms.DateTimePicker();
             this.LblTipoCliente = new System.Windows.Forms.Label();
             this.CblTipoCliente = new System.Windows.Forms.ComboBox();
+            this.LblBusca = new System.Windows.Forms.Label();
             this.MstMenu.SuspendLayout();
             this.statusStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DtgCliente)).BeginInit();
@@ -228,6 +229,7 @@
             // 
             this.TxtSenha.Location = new System.Drawing.Point(570, 68);
             this.TxtSenha.Name = "TxtSenha";
+            this.TxtSenha.PasswordChar = '*';
             this.TxtSenha.Size = new System.Drawing.Size(200, 20);
             this.TxtSenha.TabIndex = 15;
             // 
@@ -284,7 +286,7 @@
             // 
             // TxtBusca
             // 
-            this.TxtBusca.Location = new System.Drawing.Point(12, 279);
+            this.TxtBusca.Location = new System.Drawing.Point(12, 290);
             this.TxtBusca.Name = "TxtBusca";
             this.TxtBusca.Size = new System.Drawing.Size(758, 20);
             this.TxtBusca.TabIndex = 22;
@@ -311,6 +313,7 @@
             // 
             // DtpNascimento
             // 
+            this.DtpNascimento.Format = System.Windows.Forms.DateTimePickerFormat.Custom;
             this.DtpNascimento.Location = new System.Drawing.Point(570, 130);
             this.DtpNascimento.Name = "DtpNascimento";
             this.DtpNascimento.Size = new System.Drawing.Size(200, 20);
@@ -331,9 +334,18 @@
             this.CblTipoCliente.FormattingEnabled = true;
             this.CblTipoCliente.Location = new System.Drawing.Point(12, 182);
             this.CblTipoCliente.Name = "CblTipoCliente";
-            this.CblTipoCliente.Size = new System.Drawing.Size(130, 21);
+            this.CblTipoCliente.Size = new System.Drawing.Size(251, 21);
             this.CblTipoCliente.TabIndex = 28;
-            this.CblTipoCliente.SelectedIndexChanged += new System.EventHandler(this.CblTipoCliente_SelectedIndexChanged);
+            // 
+            // LblBusca
+            // 
+            this.LblBusca.AutoSize = true;
+            this.LblBusca.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.LblBusca.Location = new System.Drawing.Point(9, 274);
+            this.LblBusca.Name = "LblBusca";
+            this.LblBusca.Size = new System.Drawing.Size(37, 13);
+            this.LblBusca.TabIndex = 29;
+            this.LblBusca.Text = "Busca";
             // 
             // FrmCliente
             // 
@@ -341,6 +353,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ActiveCaptionText;
             this.ClientSize = new System.Drawing.Size(800, 496);
+            this.Controls.Add(this.LblBusca);
             this.Controls.Add(this.CblTipoCliente);
             this.Controls.Add(this.LblTipoCliente);
             this.Controls.Add(this.statusStrip1);
@@ -365,7 +378,7 @@
             this.Controls.Add(this.MstMenu);
             this.MainMenuStrip = this.MstMenu;
             this.Name = "FrmCliente";
-            this.Text = "Cadastro de clientes";
+            this.Text = "s";
             this.MstMenu.ResumeLayout(false);
             this.MstMenu.PerformLayout();
             this.statusStrip1.ResumeLayout(false);
@@ -409,5 +422,6 @@
         private System.Windows.Forms.ToolStripMenuItem TsmiCategoria;
         private System.Windows.Forms.Label LblTipoCliente;
         private System.Windows.Forms.ComboBox CblTipoCliente;
+        private System.Windows.Forms.Label LblBusca;
     }
 }

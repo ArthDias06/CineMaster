@@ -39,6 +39,7 @@ namespace CineMaster
             BtnExcluir.Visible = false;
             BtnCancelar.Visible = false;
             BtnNovo.Visible = true;
+
         }
 
         private void Preenchimento(string comando)
@@ -104,37 +105,64 @@ namespace CineMaster
                 !string.IsNullOrEmpty(CblHorario.Text) &&
                 !string.IsNullOrEmpty(CblSala.Text))
             {
-                var querySessao = $"SELECT count(*) FROM tbl_ingresso WHERE fk_sessao={this.Id_sessao};";
+                var querySessao = $"SELECT * FROM tbl_ingresso WHERE fk_sessao={this.Id_sessao};";
                 dynamic numero = conexao.Query<Tbl_sessao>(sql: querySessao);
-                if (numero[0].Count <= 20)
+                if (numero.Count <= 20)
                 {
-                    try
+                    var queryIdade = $"SELECT data_nascimento FROM tbl_cliente WHERE id_cliente={this.Id_cliente}";
+                    dynamic dataNasc = conexao.Query<Tbl_cliente>(sql: queryIdade);
+                    DateTime hoje = DateTime.Now;
+                    int idade = hoje.Year - dataNasc[0].Data_nascimento.Year;
+                    if (hoje < dataNasc[0].Data_nascimento.AddYears(idade))
                     {
-                        int filme = this.Id_filme;
-                        int cliente = this.Id_cliente;
-                        int sessao = this.Id_sessao;
-                        double preco = Convert.ToDouble(this.TxtPreco.Text, CultureInfo.InvariantCulture);
-                        string query = "INSERT INTO tbl_ingresso(fk_id_cliente, fk_sessao, filme, preco) " +
-               "VALUES(@cliente, @sessao, @filme, @preco);";
-
-                        var parameters = new
-                        {
-                            cliente = cliente,
-                            sessao = sessao,
-                            filme = filme,
-                            preco = preco
-                        };
-
-                        conexao.Query(sql: query, param: parameters);
-                        MessageBox.Show("Nova compra adicionada com sucesso!");
-                        LimpaCampos();
-                        Preenchimento(null);
-                        CarregarComboBox();
+                        idade--;
                     }
-                    catch (NpgsqlException ex)
+                    var queryClassific = $"SELECT classificacao FROM tbl_filme WHERE id_filme={this.Id_filme}";
+                    dynamic classific = conexao.Query<Tbl_filme>(sql: queryClassific);
+                    int classif = 0;
+                    if (classific[0].Classificacao == "Livre")
                     {
-                        MessageBox.Show("Erro: " + ex.Message);
-                        TslPrincipal.Text = ex.Message;
+                        classif = 0;
+                    }
+                    else
+                    {
+                        var split = classific[0].Classificacao.Split(' ');
+                        classif = Convert.ToInt32(split[0]);
+                    }
+                    if (classif <= idade)
+                    {
+                        try
+                        {
+                            int filme = this.Id_filme;
+                            int cliente = this.Id_cliente;
+                            int sessao = this.Id_sessao;
+                            double preco = Convert.ToDouble(this.TxtPreco.Text, CultureInfo.InvariantCulture);
+                            string query = "INSERT INTO tbl_ingresso(fk_id_cliente, fk_sessao, filme, preco) " +
+                   "VALUES(@cliente, @sessao, @filme, @preco);";
+
+                            var parameters = new
+                            {
+                                cliente = cliente,
+                                sessao = sessao,
+                                filme = filme,
+                                preco = preco
+                            };
+
+                            conexao.Query(sql: query, param: parameters);
+                            MessageBox.Show("Nova compra adicionada com sucesso!");
+                            LimpaCampos();
+                            Preenchimento(null);
+                            CarregarComboBox();
+                        }
+                        catch (NpgsqlException ex)
+                        {
+                            MessageBox.Show("Erro: " + ex.Message);
+                            TslPrincipal.Text = ex.Message;
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Muito novo para assistir ao filme!");
                     }
                 }
                 else
@@ -366,6 +394,9 @@ namespace CineMaster
                 "INNER JOIN tbl_cliente as cl ON i.fk_id_cliente=cl.id_cliente " +
                 $"WHERE cl.nome_cliente LIKE '%{TxtBusca.Text}%' or f.titulo LIKE '%{TxtBusca.Text}%' ORDER BY i.id_ingresso;";
                 Preenchimento(query);
+                LimpaCampos();
+                Limpar();
+                CarregarComboBox();
             }
         }
 

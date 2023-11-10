@@ -65,7 +65,7 @@ namespace CineMaster
         private void BtnNovo_Click(object sender, EventArgs e)
         {
             if (!string.IsNullOrEmpty(TxtNome.Text) &&
-                !string.IsNullOrEmpty(TxtClassificacao.Text) &&
+                !string.IsNullOrEmpty(CblClassificacao.Text) &&
                 !string.IsNullOrEmpty(CblGenero.Text) &&
                 !string.IsNullOrEmpty(RtxtSinopse.Text))
             {
@@ -73,7 +73,7 @@ namespace CineMaster
                 {
                     string filme = this.TxtNome.Text;
                     int genero = Id_categoria;
-                    string classificacao = this.TxtClassificacao.Text;
+                    string classificacao = this.CblClassificacao.Text;
                     string sinopse = this.RtxtSinopse.Text;
                     var day = DtpEstreia.Value.Day;
                     var month = DtpEstreia.Value.Month;
@@ -100,7 +100,7 @@ namespace CineMaster
                     LblNome.Font = new Font(this.Font, FontStyle.Bold);
                 if (string.IsNullOrEmpty(CblGenero.Text))
                     LblGenero.Font = new Font(this.Font, FontStyle.Bold);
-                if (string.IsNullOrEmpty(TxtClassificacao.Text))
+                if (string.IsNullOrEmpty(CblClassificacao.Text))
                     LblClassificacao.Font = new Font(this.Font, FontStyle.Bold);
                 if (string.IsNullOrEmpty(RtxtSinopse.Text))
                     LblSinopse.Font = new Font(this.Font, FontStyle.Bold);
@@ -112,7 +112,7 @@ namespace CineMaster
             TxtNome.ResetText();
             CblGenero.Items.Clear();
             CblGenero.ResetText();
-            TxtClassificacao.ResetText();
+            CblClassificacao.ResetText();
             RtxtSinopse.ResetText();
         }
 
@@ -131,7 +131,7 @@ namespace CineMaster
             {
                 string nome = TxtNome.Text;
                 int genero = Id_categoria;
-                string classificacao = TxtClassificacao.Text;
+                string classificacao = CblClassificacao.Text;
                 string sinopse = RtxtSinopse.Text;
                 var day = DtpEstreia.Value.Day;
                 var month = DtpEstreia.Value.Month;
@@ -187,7 +187,14 @@ namespace CineMaster
                 var query = "SELECT categoria FROM tbl_categoria;";
                 var listCategoria = conexao.Query<Tbl_categoria>(sql: query);
                 foreach (var categoria in listCategoria) CblGenero.Items.Add(categoria.Categoria);
-            }catch(NpgsqlException ex)
+                CblClassificacao.Items.Add("Livre");
+                CblClassificacao.Items.Add("10 anos");
+                CblClassificacao.Items.Add("12 anos");
+                CblClassificacao.Items.Add("14 anos");
+                CblClassificacao.Items.Add("16 anos");
+                CblClassificacao.Items.Add("18 anos");
+            }
+            catch(NpgsqlException ex)
             {
                 MessageBox.Show("Erro: " + ex.Message);
                 TslFilme.Text = ex.Message;
@@ -259,7 +266,7 @@ namespace CineMaster
                 TxtNome.Text = nomeFilme.ToString();
                 CblGenero.Text = generoFilme.ToString();
 
-                TxtClassificacao.Text = classificacaoFilme.ToString();
+                CblClassificacao.Text = classificacaoFilme.ToString();
                 RtxtSinopse.Text = sinopseFilme.ToString();
 
                 BtnEditar.Visible = true;

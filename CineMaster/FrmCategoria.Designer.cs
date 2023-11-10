@@ -47,6 +47,7 @@
             this.DtgCategoria = new System.Windows.Forms.DataGridView();
             this.TsErro = new System.Windows.Forms.StatusStrip();
             this.TslCategoria = new System.Windows.Forms.ToolStripStatusLabel();
+            this.LblBusca = new System.Windows.Forms.Label();
             this.MstMenu.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DtgCategoria)).BeginInit();
             this.TsErro.SuspendLayout();
@@ -78,35 +79,35 @@
             // TsmiIngresso
             // 
             this.TsmiIngresso.Name = "TsmiIngresso";
-            this.TsmiIngresso.Size = new System.Drawing.Size(180, 22);
+            this.TsmiIngresso.Size = new System.Drawing.Size(178, 22);
             this.TsmiIngresso.Text = "Comprar Ingresso";
             this.TsmiIngresso.Click += new System.EventHandler(this.TsmiIngresso_Click);
             // 
             // TsmiFilme
             // 
             this.TsmiFilme.Name = "TsmiFilme";
-            this.TsmiFilme.Size = new System.Drawing.Size(180, 22);
+            this.TsmiFilme.Size = new System.Drawing.Size(178, 22);
             this.TsmiFilme.Text = "Cadastrar Filme";
             this.TsmiFilme.Click += new System.EventHandler(this.TsmiFilme_Click);
             // 
             // TsmiSessao
             // 
             this.TsmiSessao.Name = "TsmiSessao";
-            this.TsmiSessao.Size = new System.Drawing.Size(180, 22);
+            this.TsmiSessao.Size = new System.Drawing.Size(178, 22);
             this.TsmiSessao.Text = "Cadastrar Sessão";
             this.TsmiSessao.Click += new System.EventHandler(this.TsmiSessao_Click);
             // 
             // TsmiCliente
             // 
             this.TsmiCliente.Name = "TsmiCliente";
-            this.TsmiCliente.Size = new System.Drawing.Size(180, 22);
+            this.TsmiCliente.Size = new System.Drawing.Size(178, 22);
             this.TsmiCliente.Text = "Cadastrar Cliente";
             this.TsmiCliente.Click += new System.EventHandler(this.TsmiCliente_Click);
             // 
             // TsmiCategoria
             // 
             this.TsmiCategoria.Name = "TsmiCategoria";
-            this.TsmiCategoria.Size = new System.Drawing.Size(180, 22);
+            this.TsmiCategoria.Size = new System.Drawing.Size(178, 22);
             this.TsmiCategoria.Text = "Cadastrar Categoria";
             // 
             // TsmAjuda
@@ -128,7 +129,7 @@
             // 
             this.LblCategoria.AutoSize = true;
             this.LblCategoria.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.LblCategoria.Location = new System.Drawing.Point(31, 98);
+            this.LblCategoria.Location = new System.Drawing.Point(31, 107);
             this.LblCategoria.Name = "LblCategoria";
             this.LblCategoria.Size = new System.Drawing.Size(52, 13);
             this.LblCategoria.TabIndex = 1;
@@ -219,12 +220,23 @@
             this.TslCategoria.Size = new System.Drawing.Size(28, 17);
             this.TslCategoria.Text = "Erro";
             // 
+            // LblBusca
+            // 
+            this.LblBusca.AutoSize = true;
+            this.LblBusca.ForeColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.LblBusca.Location = new System.Drawing.Point(31, 240);
+            this.LblBusca.Name = "LblBusca";
+            this.LblBusca.Size = new System.Drawing.Size(37, 13);
+            this.LblBusca.TabIndex = 11;
+            this.LblBusca.Text = "Busca";
+            // 
             // FrmCategoria
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.Black;
             this.ClientSize = new System.Drawing.Size(800, 472);
+            this.Controls.Add(this.LblBusca);
             this.Controls.Add(this.TsErro);
             this.Controls.Add(this.DtgCategoria);
             this.Controls.Add(this.TxtBusca);
@@ -238,7 +250,6 @@
             this.MainMenuStrip = this.MstMenu;
             this.Name = "FrmCategoria";
             this.Text = "FrmCategoria";
-            //this.Load += new System.EventHandler(this.FrmCategoria_Load);
             this.MstMenu.ResumeLayout(false);
             this.MstMenu.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.DtgCategoria)).EndInit();
@@ -270,5 +281,6 @@
         private System.Windows.Forms.DataGridView DtgCategoria;
         private System.Windows.Forms.StatusStrip TsErro;
         private System.Windows.Forms.ToolStripStatusLabel TslCategoria;
+        private System.Windows.Forms.Label LblBusca;
     }
 }

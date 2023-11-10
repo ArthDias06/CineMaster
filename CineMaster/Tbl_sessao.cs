@@ -12,7 +12,6 @@ namespace CineMaster
         public int Filme { get; set; }
         public TimeSpan Horario_sessao { get; set; }
         public int Num_sala {  get; set; }
-        public int Count { get; set; }
         public Tbl_sessao()
         {
         }
