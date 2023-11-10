@@ -378,7 +378,7 @@
             this.Controls.Add(this.MstMenu);
             this.MainMenuStrip = this.MstMenu;
             this.Name = "FrmCliente";
-            this.Text = "s";
+            this.Text = "Cadastar Cliente";
             this.MstMenu.ResumeLayout(false);
             this.MstMenu.PerformLayout();
             this.statusStrip1.ResumeLayout(false);

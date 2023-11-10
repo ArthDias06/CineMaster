@@ -81,40 +81,40 @@
             this.TsmiCliente,
             this.TsmiCategoria});
             this.TsmAções.Name = "TsmAções";
-            this.TsmAções.Size = new System.Drawing.Size(51, 20);
-            this.TsmAções.Text = "Ações";
+            this.TsmAções.Size = new System.Drawing.Size(50, 20);
+            this.TsmAções.Text = "Menu";
             // 
             // TsmiIngresso
             // 
             this.TsmiIngresso.Name = "TsmiIngresso";
-            this.TsmiIngresso.Size = new System.Drawing.Size(178, 22);
+            this.TsmiIngresso.Size = new System.Drawing.Size(180, 22);
             this.TsmiIngresso.Text = "Comprar Ingresso";
             this.TsmiIngresso.Click += new System.EventHandler(this.TsmiIngresso_Click);
             // 
             // TsmiFilme
             // 
             this.TsmiFilme.Name = "TsmiFilme";
-            this.TsmiFilme.Size = new System.Drawing.Size(178, 22);
+            this.TsmiFilme.Size = new System.Drawing.Size(180, 22);
             this.TsmiFilme.Text = "Cadastrar Filme";
             // 
             // TsmiSessao
             // 
             this.TsmiSessao.Name = "TsmiSessao";
-            this.TsmiSessao.Size = new System.Drawing.Size(178, 22);
+            this.TsmiSessao.Size = new System.Drawing.Size(180, 22);
             this.TsmiSessao.Text = "Cadastrar Sessao";
             this.TsmiSessao.Click += new System.EventHandler(this.TsmiSessao_Click);
             // 
             // TsmiCliente
             // 
             this.TsmiCliente.Name = "TsmiCliente";
-            this.TsmiCliente.Size = new System.Drawing.Size(178, 22);
+            this.TsmiCliente.Size = new System.Drawing.Size(180, 22);
             this.TsmiCliente.Text = "Cadastrar Cliente";
             this.TsmiCliente.Click += new System.EventHandler(this.TsmiCliente_Click);
             // 
             // TsmiCategoria
             // 
             this.TsmiCategoria.Name = "TsmiCategoria";
-            this.TsmiCategoria.Size = new System.Drawing.Size(178, 22);
+            this.TsmiCategoria.Size = new System.Drawing.Size(180, 22);
             this.TsmiCategoria.Text = "Cadastrar Categoria";
             this.TsmiCategoria.Click += new System.EventHandler(this.TsmiCategoria_Click);
             // 

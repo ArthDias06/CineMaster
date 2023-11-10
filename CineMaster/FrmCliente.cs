@@ -178,7 +178,8 @@ namespace CineMaster
             {
                 idade--;
             }
-            if ((idade > 12 && CblTipoCliente.Text!= "Criança") && (idade < 60 && CblTipoCliente.Text != "Idoso"))
+            if ((idade > 12 && CblTipoCliente.Text != "Criança") && (idade < 60 && CblTipoCliente.Text != "Idoso") ||
+                (idade <= 12 && CblTipoCliente.Text == "Criança") || (idade >= 60 && CblTipoCliente.Text == "Idoso"))
             {
 
                 try
